@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Example Web App</h1>
+    <div id="remote">
+        <input class="people" type="text" placeholder="People">
+        <input class="counties" type="text" placeholder="Counties">
+        <input class="numbers" type="text" placeholder="Numbers">
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var people = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: '/Home/PersonSearch/%QUERY',
+                wildcard: '%QUERY'
+            }
+        });
+
+        var counties = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: '/Home/CountySearch/%QUERY',
+                wildcard: '%QUERY'
+            }
+        });
+
+        var numbers = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: '/Home/NumberSearch/%QUERY',
+                wildcard: '%QUERY'
+            }
+        });
+
+        people.initialize();
+        counties.initialize();
+        numbers.initialize();
+
+        $('#remote .people').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: 'people',
+            display: 'value',
+            source: people
+        });
+        $('#remote .counties').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: 'counties',
+            display: 'value',
+            source: counties
+        });
+        $('#remote .numbers').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: 'numbers',
+            display: 'value',
+            source: numbers
+        });
+    </script>
+}
